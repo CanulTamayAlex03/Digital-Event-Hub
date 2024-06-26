@@ -1,0 +1,57 @@
+/* src/components/Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background-color: #6D3089;
+  height: 70px; 
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo {
+  height: 45px;
+  margin-right: 30px;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none;
+  background-color: #6D3089;
+}
+
+.ant-menu-horizontal .ant-menu-item {
+  width: auto; 
+}
+
+.ant-menu-horizontal .ant-menu-item a {
+  font-size: 16px;
+  color: white;
+}
+
+.ant-menu-horizontal .ant-menu-item a:hover {
+  color: white;
+  font-weight: 600;
+  
+}
+
+.access-button {
+  margin-left: auto;
+  background-color: #212529;
+  color: white;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.register-button {
+  margin-left: auto;
+  background-color: #330358;
+  color: white;
+  font-size: 16px;
+}
+
+
