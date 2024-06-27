@@ -14,8 +14,8 @@ const ClientLogin = () => {
     return (
         <div>
             <Navbar />
-            <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-                <Card style={{ width: 300, boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+            <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', background: '#f0f2f5' }}>
+                <Card style={{ width: 300, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor: '#F8F9FA' }}>
                     <Title level={3} style={{ textAlign: 'center', marginBottom: 20 }}>Inicio de sesión como cliente</Title>
                     <Form
                         name="normal_login"
@@ -26,7 +26,7 @@ const ClientLogin = () => {
                             name="username"
                             rules={[{ required: true, message: 'Por favor ingresa tu usuario!' }]}
                         >
-                            <Input prefix={<UserOutlined />} placeholder="Usuario" />
+                            <Input prefix={<UserOutlined />} placeholder="Usuario" style={{ backgroundColor: '#CEBED9' }} />
                         </Form.Item>
                         <Form.Item
                             name="password"
@@ -36,6 +36,7 @@ const ClientLogin = () => {
                                 prefix={<LockOutlined />}
                                 type="password"
                                 placeholder="Contraseña"
+                                style={{ backgroundColor: '#CEBED9' }}
                             />
                         </Form.Item>
                         <Form.Item>
