@@ -26,7 +26,7 @@ const Navbar = () => (
         </div>
         <Button type="primary" className="access-button">
             <Link to="/loginType" rel="noopener noreferrer">
-                Acceder
+                Iniciar sesión
             </Link>
         </Button>
         <Button type="primary" className="register-button">
