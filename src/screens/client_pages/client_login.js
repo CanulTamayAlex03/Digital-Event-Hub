@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../../components/default_nav';
 import { Card, Form, Input, Button, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import { Link } from 'react-router-dom';
 const { Title, Text } = Typography;
 
 const ClientLogin = () => {
@@ -15,8 +15,8 @@ const ClientLogin = () => {
         <div>
             <Navbar />
             <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', background: '#f0f2f5' }}>
-                <Card style={{ width: 300, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor: '#F8F9FA' }}>
-                    <Title level={3} style={{ textAlign: 'center', marginBottom: 20 }}>Inicio de sesión como cliente</Title>
+                <Card style={{ width: 350, height: 400,boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor: '#F8F9FA' }}>
+                    <Title level={3} style={{ textAlign: 'center', marginBottom: 30 }}>Inicio de sesión como cliente</Title>
                     <Form
                         name="normal_login"
                         initialValues={{ remember: true }}
@@ -41,11 +41,13 @@ const ClientLogin = () => {
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit" style={{ width: '100%', backgroundColor: '#8e44ad', borderColor: '#8e44ad' }}>
-                                Iniciar sesión
+                            <Link to="/homeClient" rel="noopener noreferrer">
+                                    Iniciar sesión
+                                </Link>
                             </Button>
                         </Form.Item>
                     </Form>
-                    <Text style={{ textAlign: 'center' }}>¿No tienes cuenta? <a href="/registro">Regístrate</a></Text>
+                    <Text style={{ textAlign: 'center' }}>¿No tienes cuenta? <a href="/registerClient">Regístrate</a></Text>
                 </Card>
             </div>
         </div>
