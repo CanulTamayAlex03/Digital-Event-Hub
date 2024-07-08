@@ -11,6 +11,9 @@ import ClientLogin from './screens/client_pages/client_login';
 import ClientRegister from './screens/client_pages/client_register';
 import OrganizerLogin from './screens/organizer_pages/organizer_login';
 import OrganizerRegister from './screens/organizer_pages/organizer_register';
+import OrganizerHome from './screens/organizer_pages/organizer_home';
+import ClientHome from './screens/client_pages/client_home';
+
 
 const App = () => (
   <Router>
@@ -26,6 +29,9 @@ const App = () => (
       <Route path="/loginOrganizer" element={<OrganizerLogin />} />
       <Route path="/registerClient" element={<ClientRegister />} />
       <Route path="/registerOrganizer" element={<OrganizerRegister />} />
+
+      <Route path="/homeOrganizer" element={<OrganizerHome />} />
+      <Route path="/homeClient" element={<ClientHome />} />
     </Routes>
   </Router>
 );
