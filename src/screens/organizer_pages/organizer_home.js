@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Button, message } from 'antd';
 import OrganizerNavbar from '../../components/organizer_nav';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale'; // Importa el idioma español
 
 const { Meta } = Card;
 
@@ -20,7 +22,7 @@ const OrganizerHome = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ "evento_id": evento_id })
+            body: JSON.stringify({ evento_id })
         })
         .then(response => {
             if (response.ok) {
@@ -40,14 +42,19 @@ const OrganizerHome = () => {
         console.log(`Editar evento con ID: ${evento_id}`);
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return format(date, 'dd MMMM yyyy', { locale: es });
+    };
+
     return (
         <div>
             <OrganizerNavbar />
             <div style={{ padding: '20px' }}>
                 <h1>Home del organizador</h1>
-                <Row gutter={16}>
+                <Row gutter={[16, 16]}>
                     {events.map(event => (
-                        <Col span={8} key={event.evento_id} style={{ marginBottom: '16px' }}>
+                        <Col span={4} key={event.evento_id} style={{ marginBottom: '16px' }}>
                             <Card
                                 hoverable
                                 cover={<img alt="event" src={event.imagen_url} style={{ width: '100%', borderRadius: '8px' }} />}
@@ -61,8 +68,7 @@ const OrganizerHome = () => {
                                     backgroundColor: '#f5f5f5',
                                     color: '#4a148c',
                                     borderColor: '#4a148c',
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                    width: '300px' // Ajusta el ancho de la tarjeta
+                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
                                 }}
                                 bodyStyle={{ padding: '16px' }}
                             >
@@ -70,8 +76,8 @@ const OrganizerHome = () => {
                                     title={event.nombre} 
                                     style={{ color: '#4a148c' }} 
                                 />
-                                <p style={{ color: '#4a148c' }}>Fecha de inicio: {event.fecha_inicio}</p>
-                                <p style={{ color: '#4a148c' }}>Fecha de término: {event.fecha_termino}</p>
+                                <p style={{ color: '#4a148c' }}>Fecha de inicio: {formatDate(event.fecha_inicio)}</p>
+                                <p style={{ color: '#4a148c' }}>Fecha de término: {formatDate(event.fecha_termino)}</p>
                                 <p style={{ color: '#4a148c' }}>Hora: {event.hora}</p>
                                 <p style={{ color: '#4a148c' }}>Ubicación: {event.ubicacion}</p>
                                 <p style={{ color: '#4a148c' }}>Máximo de personas: {event.max_per}</p>
