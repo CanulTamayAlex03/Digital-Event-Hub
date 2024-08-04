@@ -10,9 +10,11 @@ const ClientNavbar = () => (
             <img src={logo} alt="Logo" className="logo" />
             <Menu mode="horizontal" style={{ backgroundColor: '#6D3089', borderBottom: 'none', flex: 1 }}>
                 <Menu.Item key="home">
-                    <Link to="/homeOrganizer" className="nav-link">Inicio</Link>
+                    <Link to="/homeClient" className="nav-link">Inicio</Link>
                 </Menu.Item>
-               
+                <Menu.Item key="notificatios">
+                    <Link to="/notificatiosClient" className="nav-link">Notificaciones</Link>
+                </Menu.Item>
             </Menu>
         </div>
         <Button type="primary" className="access-button">

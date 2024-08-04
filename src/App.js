@@ -13,7 +13,7 @@ import OrganizerLogin from './screens/organizer_pages/organizer_login';
 import OrganizerRegister from './screens/organizer_pages/organizer_register';
 import OrganizerHome from './screens/organizer_pages/organizer_home';
 import ClientHome from './screens/client_pages/client_home';
-
+import ClientNotificatios from './screens/client_pages/client_notificatios';
 
 const App = () => (
   <Router>
@@ -32,6 +32,7 @@ const App = () => (
 
       <Route path="/homeOrganizer" element={<OrganizerHome />} />
       <Route path="/homeClient" element={<ClientHome />} />
+      <Route path="/notificatiosClient" element={<ClientNotificatios />} />
     </Routes>
   </Router>
 );
