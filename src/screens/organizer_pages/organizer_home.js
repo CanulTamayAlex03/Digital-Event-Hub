@@ -109,7 +109,7 @@ const OrganizerHome = () => {
                     bodyStyle={{ padding: '16px' }}
                 >
                     <Meta 
-                        title={<Title level={4} style={{ color: '#4a148c', marginBottom: 0 }}>{event.nombre}</Title>} 
+                        title={<Title level={4} style={{ color: '#4a148c', marginBottom: 0 }}>{event.evento_nombre}</Title>} 
                     />
                     <div style={{ marginTop: '10px' }}>
                         <Text style={{ display: 'block', color: '#4a148c' }}>
@@ -131,6 +131,10 @@ const OrganizerHome = () => {
                         <Text style={{ display: 'block', color: '#4a148c', marginTop: 4 }}>
                             <UserOutlined style={{ marginRight: 8 }} />
                             Máximo de personas: {event.max_per}
+                        </Text>
+                        <Text style={{ display: 'block', color: '#4a148c', marginTop: 4 }}>
+                            <UserOutlined style={{ marginRight: 8 }} />
+                            Costo del boleto: {event.monto}
                         </Text>
                     </div>
                 </Card>
