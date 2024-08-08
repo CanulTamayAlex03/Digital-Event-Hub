@@ -62,86 +62,92 @@ const ClientHome = () => {
     return (
         <div>
             <ClientNavbar />
-            <div style={{ padding: '20px', maxWidth: '1200px', margin: 'auto' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Eventos Disponibles</h1>
-                
+            <div style={{ padding: '30px',marginTop: '30px', maxWidth: '80%', margin: 'auto', backgroundColor: '#f7f8fa', borderRadius: '8px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333', fontSize: '2em', fontWeight: 'bold' }}>Eventos Digital Event Hub:</h1>
+
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px', position: 'relative' }}>
                     <div style={{ flex: '1 1 auto', maxWidth: '600px', position: 'relative' }}>
-                        <input 
-                            type="text" 
-                            placeholder="Buscar eventos..." 
+                        <input
+                            type="text"
+                            placeholder="Buscar eventos..."
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                             style={{
-                                width: 'calc(100% - 60px)', 
-                                padding: '10px 20px',
-                                borderRadius: '25px',
-                                border: '1px solid #ccc',
+                                width: 'calc(100% - 60px)',
+                                padding: '12px 20px',
+                                borderRadius: '30px',
+                                border: '1px solid #ddd',
                                 outline: 'none',
-                                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-                                marginRight: '10px'
+                                boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)',
+                                marginRight: '10px',
+                                fontSize: '1em'
                             }}
                         />
-                        <FaSearch 
-                            style={{ 
-                                position: 'absolute', 
-                                top: '50%', 
-                                right: '10px', 
-                                transform: 'translateY(-50%)', 
-                                color: '#aaa' 
+                        <FaSearch
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                right: '40px',
+                                transform: 'translateY(-50%)',
+                                color: '#6D3089',
+                                fontSize: '1.2em'
                             }}
                         />
                     </div>
-                    <button 
+                    <button
                         onClick={toggleFilters}
                         style={{
-                            padding: '10px 15px',
+                            padding: '10px 20px',
                             borderRadius: '25px',
-                            border: '1px solid #ccc',
-                            backgroundColor: 'white',
-                            boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                            border: 'none',
+                            backgroundColor: '#6D3089',
+                            color: 'white',
+                            boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginLeft: '10px'
+                            marginLeft: '10px',
+                            fontSize: '1em'
                         }}
                     >
-                        <FaFilter style={{ marginRight: '5px', color: '#007bff' }} />
+                        <FaFilter style={{ marginRight: '5px', fontSize: '1.2em' }} />
                         Filtrar
                     </button>
 
                     {/* Filtros Desplegables */}
                     {showFilters && (
-                        <div 
+                        <div
                             ref={filterRef}
                             style={{
                                 position: 'absolute',
                                 top: '100%',
                                 right: '0',
                                 backgroundColor: 'white',
-                                border: '1px solid #ccc',
+                                border: '1px solid #ddd',
                                 borderRadius: '8px',
-                                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-                                padding: '10px',
+                                boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)',
+                                padding: '15px',
                                 width: '250px',
                                 zIndex: 1000,
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: '10px'
+                                gap: '10px',
+                                transition: 'all 0.3s ease'
                             }}
                         >
                             <div>
-                                <label style={{ display: 'block', marginBottom: '5px' }}>Categoría</label>
-                                <select 
+                                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Categoría</label>
+                                <select
                                     value={selectedCategory}
                                     onChange={e => setSelectedCategory(e.target.value)}
                                     style={{
                                         width: '100%',
                                         padding: '10px',
                                         borderRadius: '5px',
-                                        border: '1px solid #ccc',
-                                        outline: 'none'
+                                        border: '1px solid #ddd',
+                                        outline: 'none',
+                                        fontSize: '1em'
                                     }}
                                 >
                                     <option value="">Todas las categorías</option>
@@ -151,16 +157,17 @@ const ClientHome = () => {
                                 </select>
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '5px' }}>Tipo de Evento</label>
-                                <select 
+                                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Tipo de Evento</label>
+                                <select
                                     value={selectedEventType}
                                     onChange={e => setSelectedEventType(e.target.value)}
                                     style={{
                                         width: '100%',
                                         padding: '10px',
                                         borderRadius: '5px',
-                                        border: '1px solid #ccc',
-                                        outline: 'none'
+                                        border: '1px solid #ddd',
+                                        outline: 'none',
+                                        fontSize: '1em'
                                     }}
                                 >
                                     <option value="">Todos los tipos</option>
@@ -176,33 +183,52 @@ const ClientHome = () => {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
                     {filteredEvents.length > 0 ? (
                         filteredEvents.map(event => (
-                            <div 
-                                key={event.evento_id} 
-                                style={{ 
-                                    border: '1px solid #ccc', 
-                                    borderRadius: '8px', 
-                                    padding: '16px', 
+                            <div
+                                key={event.evento_id}
+                                style={{
+                                    border: '1px solid #ddd',
+                                    borderRadius: '8px',
+                                    padding: '16px',
                                     maxWidth: '300px',
-                                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                                    boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)',
                                     textAlign: 'center',
-                                    backgroundColor: 'white'
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease',
+                                    cursor: 'pointer'
                                 }}
+                                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-5px)'}
+                                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
                             >
-                                <img 
-                                    src={event.imagen_url} 
-                                    alt={event.evento_nombre} 
-                                    style={{ 
-                                        width: '100%', 
-                                        height: '200px', 
-                                        objectFit: 'cover', 
-                                        borderRadius: '8px' 
+                                <img
+                                    src={event.imagen_url}
+                                    alt={event.evento_nombre}
+                                    style={{
+                                        width: '100%',
+                                        height: '200px',
+                                        objectFit: 'cover',
+                                        borderRadius: '8px'
                                     }}
                                 />
-                                <h3 style={{ margin: '10px 0' }}>{event.evento_nombre}</h3>
+                                <h3 style={{ margin: '10px 0', fontSize: '1.5em', color: '#333' }}>{event.evento_nombre}</h3>
                                 <p><strong>Ubicación:</strong> {event.ubicacion}</p>
                                 <p><strong>Inicia:</strong> {new Date(event.fecha_inicio).toLocaleDateString()}</p>
                                 <p><strong>Termina:</strong> {new Date(event.fecha_termino).toLocaleDateString()}</p>
                                 <p><strong>Hora:</strong> {event.hora}</p>
+                                <button
+                                    style={{
+                                        marginTop: '10px',
+                                        padding: '10px 15px',
+                                        borderRadius: '25px',
+                                        border: 'none',
+                                        backgroundColor: '#6D3089',
+                                        color: 'white',
+                                        fontSize: '14px',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
+                                    }}
+                                >
+                                    Ver detalles
+                                </button>
                             </div>
                         ))
                     ) : (
@@ -210,6 +236,7 @@ const ClientHome = () => {
                     )}
                 </div>
             </div>
+
         </div>
     );
 };
