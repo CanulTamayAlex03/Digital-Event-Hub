@@ -44,7 +44,7 @@ const CreateEvent = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:4000/api/event/post/img', {
+            const response = await fetch('http://localhost:4000/api/events/post/img', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const CreateEvent = () => {
                                     <Select>
                                         <Option value={'Redondo'}>Redondo</Option>
                                         <Option value={'Cuadrado'}>Cuadrado</Option>
-                                        <Option value={'Triangulo'}>Triangulo</Option>
+                                        <Option value={'Triangular'}>Triangular</Option>
                                     </Select>
                                 </Item>
                             </Col>
