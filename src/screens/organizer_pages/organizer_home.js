@@ -4,12 +4,14 @@ import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, UserOutline
 import OrganizerNavbar from '../../components/organizer_nav';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale'; // Importa el idioma español
+import { useNavigate  } from 'react-router-dom';
 
 const { Meta } = Card;
 const { Title, Text } = Typography;
 
 const OrganizerHome = () => {
     const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:4000/api/event/get/img')
@@ -41,7 +43,7 @@ const OrganizerHome = () => {
     };
 
     const handleEdit = (evento_id) => {
-        console.log(`Editar evento con ID: ${evento_id}`);
+        navigate(`/UpdateEvent/${evento_id}`);
     };
 
     const handleAdd = () => {
@@ -234,7 +236,7 @@ const OrganizerHome = () => {
                 onClick={handleAdd}
                 style={{
                     position: 'fixed',
-                    bottom: '50px',
+                    bottom: '80px',
                     right: '50px',
                     backgroundColor: '#4a148c',
                     borderColor: '#4a148c',
@@ -244,7 +246,7 @@ const OrganizerHome = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '60px',
-                    width: '60px'
+                    width: '60px',
                 }}
             />
         </div>

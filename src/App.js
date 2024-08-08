@@ -17,6 +17,7 @@ import OrganizerHome from './screens/organizer_pages/organizer_home';
 import ClientHome from './screens/client_pages/client_home';
 import ClientNotificatios from './screens/client_pages/client_notificatios';
 import CreateEvent from './screens/organizer_pages/createEvent';
+import UpdateEvent from './screens/organizer_pages/updateEvent';
 
 
 const App = () => (
@@ -37,6 +38,7 @@ const App = () => (
 
       <Route path="/homeOrganizer" element={<OrganizerHome />} />
       <Route path="/CreateEvent" element={<CreateEvent />} />
+      <Route path="/UpdateEvent/:evento_id" element={<UpdateEvent />} />
       <Route path="/homeClient" element={<ClientHome />} />
       <Route path="/homeAdmin" element={<AdminHome />} />
       <Route path="/notificatiosClient" element={<ClientNotificatios />} />
