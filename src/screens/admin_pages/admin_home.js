@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Button, Typography } from 'antd';
+import { Card, Col, Row, Button, Typography, Modal } from 'antd';
 import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, UserOutlined } from '@ant-design/icons';
 import OrganizerNavbar from '../../components/organizer_nav';
 import { format } from 'date-fns';
@@ -9,6 +9,8 @@ const { Title, Text } = Typography;
 
 const AdminHome = () => {
     const [events, setEvents] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalContent, setModalContent] = useState({});
 
     useEffect(() => {
         fetch('http://localhost:4000/api/event/get/pending')
@@ -26,12 +28,39 @@ const AdminHome = () => {
         console.log(`Inspeccionar evento con ID: ${evento_id}`);
     };
 
-    const handleApprove = (evento_id) => {
-        console.log(`Aprobar evento con ID: ${evento_id}`);
+    const handleUpdateStatus = async (evento_id, estado) => {
+        try {
+            const response = await fetch('http://localhost:4000/api/event/post/pending', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ evento_id, estado }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar el estado del evento');
+            }
+
+            // Actualizar la lista de eventos después de la aprobación o rechazo
+            setEvents(events.filter(event => event.evento_id !== evento_id));
+            setIsModalVisible(false);
+        } catch (error) {
+            console.error('Error al actualizar el estado del evento:', error);
+        }
     };
 
-    const handleReject = (evento_id) => {
-        console.log(`Rechazar evento con ID: ${evento_id}`);
+    const showModal = (evento_id, estado, evento_nombre) => {
+        setModalContent({ evento_id, estado, evento_nombre });
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        handleUpdateStatus(modalContent.evento_id, modalContent.estado);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
     };
 
     const renderEvents = (eventsList) => {
@@ -58,7 +87,7 @@ const AdminHome = () => {
                     />
                     <div style={{ padding: '16px', flex: 1 }}>
                         <Meta 
-                            title={<Title level={4} style={{ color: '#4a148c', marginBottom: 0 }}>{event.nombre}</Title>} 
+                            title={<Title level={4} style={{ color: '#4a148c', marginBottom: 0 }}>{event.evento_nombre}</Title>} 
                         />
                         <div style={{ marginTop: '10px' }}>
                             <Text style={{ display: 'block', color: '#4a148c' }}>
@@ -97,7 +126,7 @@ const AdminHome = () => {
                             </Button>
                             <Button 
                                 type="primary" 
-                                onClick={() => handleApprove(event.evento_id)}
+                                onClick={() => showModal(event.evento_id, 'Aprobado', event.evento_nombre)}
                                 style={{
                                     backgroundColor: '#0b2268',
                                     borderColor: '#0b2268',
@@ -109,7 +138,7 @@ const AdminHome = () => {
                             </Button>
                             <Button 
                                 type="danger" 
-                                onClick={() => handleReject(event.evento_id)}
+                                onClick={() => showModal(event.evento_id, 'Rechazado', event.evento_nombre)}
                                 style={{
                                     backgroundColor: '#81171b',
                                     borderColor: '#81171b',
@@ -136,6 +165,16 @@ const AdminHome = () => {
                     {renderEvents(events)}
                 </Row>
             </div>
+            <Modal
+                title={`¿Estás seguro de que quieres ${modalContent.estado?.toLowerCase()} el evento?`}
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="Confirmar"
+                cancelText="Cancelar"
+            >
+                <p>{`Nombre de evento: ${modalContent.evento_nombre}`}</p>
+            </Modal>
         </div>
     );
 };

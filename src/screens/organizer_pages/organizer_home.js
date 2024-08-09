@@ -141,7 +141,7 @@ const OrganizerHome = () => {
                         </Text>
                         <Text style={{ display: 'block', color: '#4a148c', marginTop: 4 }}>
                             <UserOutlined style={{ marginRight: 8 }} />
-                            Costo del boleto: {event.monto}
+                            Costo del boleto: {event.monto} pesos MXN
                         </Text>
                     </div>
                 </Card>
