@@ -3,6 +3,7 @@ import Navbar from '../../components/default_nav';
 import { Card, Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { apiConn } from '../config'
 
 const { Title, Text } = Typography;
 
@@ -18,7 +19,7 @@ const OrganizerLogin = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/login', {
+            const response = await fetch(`${apiConn}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

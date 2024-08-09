@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import Navbar from '../../components/default_nav';
 import { Card, Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { apiConn } from '../config'
+
 const { Title, } = Typography;
+
 
 const AdminLogin = () => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +19,7 @@ const AdminLogin = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:4000/api/user/login', {
+            const response = await fetch(`${apiConn}/user/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

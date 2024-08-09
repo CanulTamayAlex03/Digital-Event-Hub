@@ -4,6 +4,8 @@ import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, UserOutline
 import OrganizerNavbar from '../../components/organizer_nav';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale'; // Importa el idioma español
+import { apiConn } from '../config'
+
 const { Meta } = Card;
 const { Title, Text } = Typography;
 
@@ -13,7 +15,7 @@ const AdminHome = () => {
     const [modalContent, setModalContent] = useState({});
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/event/get/pending')
+        fetch(`${apiConn}/event/get/pending`)
             .then(response => response.json())
             .then(data => setEvents(data))
             .catch(error => console.error('Error fetching events:', error));
@@ -30,7 +32,7 @@ const AdminHome = () => {
 
     const handleUpdateStatus = async (evento_id, estado) => {
         try {
-            const response = await fetch('http://localhost:4000/api/event/post/pending', {
+            const response = await fetch(`${apiConn}/event/post/pending`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

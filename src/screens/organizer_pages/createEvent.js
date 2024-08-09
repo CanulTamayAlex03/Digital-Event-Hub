@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, DatePicker, TimePicker, Button, Card, Select, InputNumber, Row, Col, notification } from 'antd';
 import Navbar from '../../components/default_nav';
+import { apiConn } from '../config'
 
 const { Item } = Form;
 const { Option } = Select;
@@ -44,7 +45,7 @@ const CreateEvent = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:4000/api/events/post/img', {
+            const response = await fetch(`${apiConn}/events/post/img`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

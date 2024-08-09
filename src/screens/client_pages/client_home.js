@@ -1,6 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef,useCallback } from 'react';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import ClientNavbar from '../../components/client_nav';
+import { apiConn } from '../config'
+
+
 
 const ClientHome = () => {
     const [events, setEvents] = useState([]);
@@ -15,7 +18,7 @@ const ClientHome = () => {
     const filterRef = useRef(null);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/event/get/approved')
+        fetch(`${apiConn}/events/get/approved`)
             .then(response => response.json())
             .then(data => {
                 console.log('Datos de eventos:', data);
@@ -41,7 +44,7 @@ const ClientHome = () => {
         };
     }, []);
 
-    const applyFilters = () => {
+    const applyFilters = useCallback(() => {
         setFilteredEvents(
             events.filter(event =>
                 event.evento_nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -49,11 +52,11 @@ const ClientHome = () => {
                 (selectedEventType ? event.tipo_evento === selectedEventType : true)
             )
         );
-    };
-
+    }, [events, searchTerm, selectedCategory, selectedEventType]);
+    
     useEffect(() => {
         applyFilters();
-    }, [searchTerm, selectedCategory, selectedEventType, events]);
+    }, [applyFilters]);
 
     const toggleFilters = () => {
         setShowFilters(prevState => !prevState);

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/default_nav';
 import { Form, Input, DatePicker, TimePicker, Button, Card, Select, InputNumber, Row, Col, notification } from 'antd';
+import { apiConn } from '../config'
 
 const { Item } = Form;
 const { Option } = Select;
@@ -15,7 +16,7 @@ const UpdateEvent = () => {
     useEffect(() => {
         const fetchEventData = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/api/events/get/img/${evento_id}`);
+                const response = await fetch(`${apiConn}/events/get/img/${evento_id}`);
                 const data = await response.json();
                 console.log(data.tipo_evento);
                 form.setFieldsValue({
@@ -80,7 +81,7 @@ const UpdateEvent = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:4000/api/events/put/img/${evento_id}`, {
+            const response = await fetch(`${apiConn}/events/put/img/${evento_id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

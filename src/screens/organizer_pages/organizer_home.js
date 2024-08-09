@@ -15,14 +15,14 @@ const OrganizerHome = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:4000/api/events/get/img`)
+        fetch(`${apiConn}/events/get/img`)
             .then(response => response.json())
             .then(data => setEvents(data))
             .catch(error => console.error('Error fetching events:', error));
     }, []);
 
     const handleDelete = (evento_id) => {
-        fetch('http://localhost:4000/api/event/delete', {
+        fetch(`${apiConn}/event/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
