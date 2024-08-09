@@ -80,27 +80,29 @@ const OrganizerHome = () => {
                     hoverable
                     cover={<img alt="event" src={event.imagen_url} style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: '8px 8px 0 0' }} />}
                     actions={[
-                        <Button
-                            type="primary"
-                            size="large"
-                            onClick={() => handleEdit(event.evento_id)}
-                            icon={<EditOutlined />}
-                            style={{
-                                backgroundColor: '#4a148c',
-                                borderColor: '#4a148c',
-                                color: '#fff',
-                                borderRadius: '6px',
-                                fontWeight: 'bold',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                flexGrow: 1,
-                                width: '80%',
-                                margin: '0 auto'
-                            }}
-                        >
-                            Editar
-                        </Button>,
+                        event.estado === 'Pendiente' && (
+                            <Button
+                                type="primary"
+                                size="large"
+                                onClick={() => handleEdit(event.evento_id)}
+                                icon={<EditOutlined />}
+                                style={{
+                                    backgroundColor: '#4a148c',
+                                    borderColor: '#4a148c',
+                                    color: '#fff',
+                                    borderRadius: '6px',
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexGrow: 1,
+                                    width: '80%',
+                                    margin: '0 auto'
+                                }}
+                            >
+                                Editar
+                            </Button>
+                        ),
                         event.estado === 'Rechazado' && (
                             <Button
                                 type="danger"
@@ -123,7 +125,8 @@ const OrganizerHome = () => {
                             >
                                 Eliminar
                             </Button>
-                        )
+                        ),
+                        
                     ]}
                     style={{
                         borderRadius: '8px',
