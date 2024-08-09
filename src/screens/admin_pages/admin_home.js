@@ -15,7 +15,7 @@ const AdminHome = () => {
     const [modalContent, setModalContent] = useState({});
 
     useEffect(() => {
-        fetch(`${apiConn}/event/get/pending`)
+        fetch(`${apiConn}/events/get/pending`)
             .then(response => response.json())
             .then(data => setEvents(data))
             .catch(error => console.error('Error fetching events:', error));
@@ -32,7 +32,7 @@ const AdminHome = () => {
 
     const handleUpdateStatus = async (evento_id, estado) => {
         try {
-            const response = await fetch(`${apiConn}/event/post/pending`, {
+            const response = await fetch(`${apiConn}/events/post/pending`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ const OrganizerHome = () => {
     }, []);
 
     const handleDelete = (evento_id) => {
-        fetch(`${apiConn}/event/delete`, {
+        fetch(`${apiConn}/events/delete/img`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,4 +1,5 @@
 import React, {useEffect } from 'react';
+import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/default_nav';
 import { Form, Input, DatePicker, TimePicker, Button, Card, Select, InputNumber, Row, Col, notification } from 'antd';
@@ -18,12 +19,11 @@ const UpdateEvent = () => {
             try {
                 const response = await fetch(`${apiConn}/events/get/img/${evento_id}`);
                 const data = await response.json();
-                console.log(data.tipo_evento);
                 form.setFieldsValue({
                     nombre: data.evento_nombre,
-                    // fecha_inicio: data.fecha_inicio ? DatePicker.parse(data.fecha_inicio, 'YYYY-MM-DD') : null,
-                    // fecha_termino: data.fecha_termino ? DatePicker.parse(data.fecha_termino, 'YYYY-MM-DD') : null,
-                    // hora: data.hora ? TimePicker.parse(data.hora, 'HH:mm') : null,
+                    fecha_inicio: moment(data.fecha_inicio),  // Convierte la fecha de inicio a un objeto moment
+                    fecha_termino: moment(data.fecha_termino),  // Convierte la fecha de término a un objeto moment
+                    hora: moment(data.hora, 'HH:mm'), 
                     tipo_evento_id: data.tipo_evento,
                     categoria_id: data.categoria,
                     ubicacion: data.ubicacion,
@@ -46,25 +46,40 @@ const UpdateEvent = () => {
 
     const handleSubmit = async (values) => {
         let imagen_url;
-
+    
         switch (values.categoria_id) {
-            case 1:
+            case "Tecnología":
                 imagen_url = 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+                values.categoria_id = 1;
                 break;
-            case 2:
+            case "Educación":
                 imagen_url = 'https://images.pexels.com/photos/768125/pexels-photo-768125.jpeg?auto=compress&cs=tinysrgb&w=600';
+                values.categoria_id = 2;
                 break;
-            case 3:
+            case "Entretenimiento":
                 imagen_url = 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=600';
+                values.categoria_id = 3;
                 break;
-            case 4:
+            case "Deportes":
                 imagen_url = 'https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=600';
+                values.categoria_id = 4;
                 break;
             default:
                 imagen_url = 'https://images.pexels.com/photos/7897470/pexels-photo-7897470.jpeg?auto=compress&cs=tinysrgb&w=600';
-
+                break;
         }
-
+    
+        switch (values.tipo_evento_id) {
+            case "Público":
+                values.tipo_evento_id = 1;
+                break;
+            case "Privado":
+                values.tipo_evento_id = 2;
+                break;
+            default:
+                break;
+        }
+    
         const formattedValues = {
             nombre: values.nombre,
             fecha_inicio: values.fecha_inicio.format('YYYY-MM-DD'),
@@ -79,7 +94,7 @@ const UpdateEvent = () => {
             forma: values.escenario,
             descripcion: values.descripcion
         };
-
+        
         try {
             const response = await fetch(`${apiConn}/events/put/img/${evento_id}`, {
                 method: 'PUT',
@@ -88,18 +103,18 @@ const UpdateEvent = () => {
                 },
                 body: JSON.stringify(formattedValues),
             });
-
+    
             const contentType = response.headers.get('content-type');
             const data = contentType && contentType.includes('application/json') ? await response.json() : await response.text();
-
+    
             if (response.ok) {
                 notification.success({
                     message: 'Éxito',
-                    description: typeof data === 'string' ? data : 'El evento se ha creado correctamente.',
+                    description: typeof data === 'string' ? data : 'El evento se ha actualizado correctamente.',
                 });
                 window.location.href = '/homeOrganizer';
             } else {
-                throw new Error(data.message || data || 'Error al crear el evento');
+                throw new Error(data.message || data || 'Error al actualizar el evento');
             }
         } catch (error) {
             console.error('Error al enviar los datos:', error);
@@ -109,6 +124,7 @@ const UpdateEvent = () => {
             });
         }
     };
+    
 
     return (
         <div>
@@ -178,7 +194,7 @@ const UpdateEvent = () => {
                             </Col>
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={12}>
                                 <Item label="Escenario" name="escenario">
                                     <Select>
                                         <Option value={'Redondo'}>Redondo</Option>
@@ -186,7 +202,7 @@ const UpdateEvent = () => {
                                         <Option value={'Triangulo'}>Triangulo</Option>
                                     </Select>
                                 </Item>
-                            </Col>
+                            </Col> */}
                             <Col span={12}>
                                 <Item label="Monto" name="monto">
                                     <InputNumber min={0} style={{ width: '100%' }} />
