@@ -198,7 +198,7 @@ const CreateEvent = () => {
                                 type="primary"
                                 htmlType="submit"
                                 style={{ width: '100%', background: '#6D238B', borderColor: '#6D238B' }}
-                                loading={loading} // Este prop activa la animación de carga
+                                loading={loading} 
                             >
                                 CREAR EVENTO
                             </Button>
