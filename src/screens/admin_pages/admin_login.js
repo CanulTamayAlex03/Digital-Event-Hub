@@ -19,7 +19,7 @@ const AdminLogin = () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`${apiConn}/user/login`, {
+            const response = await fetch(`${apiConn}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

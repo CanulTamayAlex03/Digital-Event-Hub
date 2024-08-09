@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Button, message, Typography } from 'antd';
+import { Card, Col, Row, Button, message, Typography, Modal } from 'antd';
 import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, UserOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import OrganizerNavbar from '../../components/organizer_nav';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale'; // Importa el idioma español
-import { useNavigate  } from 'react-router-dom';
+import { es } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 import { apiConn } from '../config'
 
 const { Meta } = Card;
 const { Title, Text } = Typography;
+const { confirm } = Modal;
 
 const OrganizerHome = () => {
     const [events, setEvents] = useState([]);
@@ -41,6 +42,22 @@ const OrganizerHome = () => {
                 console.error('Error deleting event:', error);
                 message.error('Error al eliminar el evento');
             });
+    };
+
+    const showDeleteConfirm = (evento_id) => {
+        confirm({
+            title: '¿Estás seguro de que quieres eliminar este evento?',
+            content: 'Esta acción no se puede deshacer.',
+            okText: 'Sí, eliminar',
+            okType: 'danger',
+            cancelText: 'Cancelar',
+            onOk() {
+                handleDelete(evento_id);
+            },
+            onCancel() {
+                console.log('Cancelado');
+            },
+        });
     };
 
     const handleEdit = (evento_id) => {
@@ -84,27 +101,29 @@ const OrganizerHome = () => {
                         >
                             Editar
                         </Button>,
-                        <Button
-                            type="danger"
-                            size="large"
-                            onClick={() => handleDelete(event.evento_id)}
-                            icon={<DeleteOutlined />}
-                            style={{
-                                backgroundColor: '#f5222d',
-                                borderColor: '#f5222d',
-                                color: '#fff',
-                                borderRadius: '6px',
-                                fontWeight: 'bold',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                flexGrow: 1,
-                                width: '80%',
-                                margin: '0 auto'
-                            }}
-                        >
-                            Eliminar
-                        </Button>
+                        event.estado === 'Rechazado' && (
+                            <Button
+                                type="danger"
+                                size="large"
+                                onClick={() => showDeleteConfirm(event.evento_id)}
+                                icon={<DeleteOutlined />}
+                                style={{
+                                    backgroundColor: '#f5222d',
+                                    borderColor: '#f5222d',
+                                    color: '#fff',
+                                    borderRadius: '6px',
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexGrow: 1,
+                                    width: '80%',
+                                    margin: '0 auto'
+                                }}
+                            >
+                                Eliminar
+                            </Button>
+                        )
                     ]}
                     style={{
                         borderRadius: '8px',
