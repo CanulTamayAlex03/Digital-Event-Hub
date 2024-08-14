@@ -1,0 +1,1 @@
+export const apiConn = 'https://api-digitalevent.onrender.com/api';

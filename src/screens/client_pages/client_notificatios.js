@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, List, Avatar, Typography, Spin } from 'antd';
 import { NotificationOutlined } from '@ant-design/icons';
 import ClientNavbar from '../../components/client_nav';
+import { apiConn } from '../config'
 
 const { Title, Text } = Typography;
 
@@ -23,7 +24,7 @@ const ClientNotifications = () => {
     };
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/notification/getAll')
+        fetch(`${apiConn}/notification/getAll`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

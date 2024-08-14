@@ -4,7 +4,6 @@ import Navbar from '../components/default_nav';
 import icon from '../assets/icons/user.png';
 import { Link } from 'react-router-dom';
 
-
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -37,6 +36,27 @@ const LoginType = () => (
                 </Space>
             </Card>
         </Content>
+        <Button
+            type="primary"
+            size="large"
+            style={{
+                position: 'fixed',
+                top: '100px',
+                left: '40px',
+                backgroundColor: '#000000',
+                borderColor: '#000000',
+                width: '190px',
+                height: '45px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                fontSize: '16px',
+                fontWeight: 'bold',
+            }}
+        >
+            <Link to="/loginAdmin" style={{ color: 'white', textDecoration: 'none', fontSize: '18px' }} rel="noopener noreferrer">
+                Soy administrador
+            </Link>
+        </Button>
     </Layout>
 );
 

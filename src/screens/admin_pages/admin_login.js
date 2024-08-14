@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Navbar from '../../components/default_nav';
 import { Card, Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import { apiConn } from '../config'
 
-const { Title, Text } = Typography;
+const { Title, } = Typography;
 
-const OrganizerLogin = () => {
+
+const AdminLogin = () => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -42,7 +42,7 @@ const OrganizerLogin = () => {
 
                 message.success('Inicio de sesión exitoso');
                 // Redirigir a la página de inicio del organizador
-                window.location.href = '/homeOrganizer';
+                window.location.href = '/homeAdmin';
             } else {
                 message.error(data.message || 'Error en el inicio de sesión');
             }
@@ -58,8 +58,8 @@ const OrganizerLogin = () => {
         <div>
             <Navbar />
             <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', background: '#f0f2f5' }}>
-                <Card style={{ width: 350, height: 400, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor: '#F8F9FA' }}>
-                    <Title level={3} style={{ textAlign: 'center', marginBottom: 30 }}>Inicio de sesión como organizador</Title>
+                <Card style={{ width: 350, height: 340, boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor: '#F8F9FA' }}>
+                    <Title level={3} style={{ textAlign: 'center', marginBottom: 30 }}>Inicio de sesión como administrador</Title>
                     <Form
                         name="login"
                         initialValues={{ remember: true }}
@@ -93,11 +93,10 @@ const OrganizerLogin = () => {
                             </Button>
                         </Form.Item>
                     </Form>
-                    <Text style={{ textAlign: 'center' }}>¿No tienes cuenta? <Link to="/registerOrganizer">Regístrate</Link></Text>
                 </Card>
             </div>
         </div>
     );
 };
 
-export default OrganizerLogin;
+export default AdminLogin;

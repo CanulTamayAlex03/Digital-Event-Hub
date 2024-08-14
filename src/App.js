@@ -10,10 +10,15 @@ import RegisterType from './screens/register_type';
 import ClientLogin from './screens/client_pages/client_login';
 import ClientRegister from './screens/client_pages/client_register';
 import OrganizerLogin from './screens/organizer_pages/organizer_login';
+import AdminLogin from './screens/admin_pages/admin_login';
+import AdminHome from './screens/admin_pages/admin_home';
 import OrganizerRegister from './screens/organizer_pages/organizer_register';
 import OrganizerHome from './screens/organizer_pages/organizer_home';
 import ClientHome from './screens/client_pages/client_home';
 import ClientNotificatios from './screens/client_pages/client_notificatios';
+import CreateEvent from './screens/organizer_pages/createEvent';
+import UpdateEvent from './screens/organizer_pages/updateEvent';
+
 
 const App = () => (
   <Router>
@@ -29,9 +34,13 @@ const App = () => (
       <Route path="/loginOrganizer" element={<OrganizerLogin />} />
       <Route path="/registerClient" element={<ClientRegister />} />
       <Route path="/registerOrganizer" element={<OrganizerRegister />} />
+      <Route path="/loginAdmin" element={<AdminLogin />} />
 
       <Route path="/homeOrganizer" element={<OrganizerHome />} />
+      <Route path="/CreateEvent" element={<CreateEvent />} />
+      <Route path="/UpdateEvent/:evento_id" element={<UpdateEvent />} />
       <Route path="/homeClient" element={<ClientHome />} />
+      <Route path="/homeAdmin" element={<AdminHome />} />
       <Route path="/notificatiosClient" element={<ClientNotificatios />} />
     </Routes>
   </Router>

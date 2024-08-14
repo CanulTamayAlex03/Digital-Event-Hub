@@ -1,0 +1,232 @@
+import React, { useEffect,useState } from 'react';
+import moment from 'moment';
+import { useParams } from 'react-router-dom';
+import Navbar from '../../components/default_nav';
+import { Form, Input, DatePicker, TimePicker, Button, Card, Select, InputNumber, Row, Col, notification } from 'antd';
+import { apiConn } from '../config'
+
+const { Item } = Form;
+const { Option } = Select;
+const { TextArea } = Input;
+
+const UpdateEvent = () => {
+    const [loading, setLoading] = useState(false);
+    const { evento_id } = useParams();
+    const [form] = Form.useForm();
+
+
+    useEffect(() => {
+        const fetchEventData = async () => {
+            try {
+                const response = await fetch(`${apiConn}/events/get/img/${evento_id}`);
+                const data = await response.json();
+                console.log(data.tipo_evento);
+                form.setFieldsValue({
+                    nombre: data.evento_nombre,
+                    fecha_inicio: moment(data.fecha_inicio),  // Convierte la fecha de inicio a un objeto moment
+                    fecha_termino: moment(data.fecha_termino),  // Convierte la fecha de término a un objeto moment
+                    hora: moment(data.hora, 'HH:mm'),
+                    tipo_evento_id: data.tipo_evento,
+                    categoria_id: data.categoria,
+                    ubicacion: data.ubicacion,
+                    max_per: data.max_per,
+                    monto: data.monto,
+                    imagen_url: data.imagen_url,
+                    descripcion: data.descripcion,
+                });
+            } catch (error) {
+                console.error('Error al obtener los datos del evento:', error);
+                notification.error({
+                    message: 'Error',
+                    description: 'No se pudieron cargar los datos del evento.',
+                });
+            }
+        };
+
+        fetchEventData();
+    }, [evento_id, form]);
+
+    const handleSubmit = async (values) => {
+        setLoading(true);
+
+        switch (values.categoria_id) {
+            case "Tecnología":
+                values.categoria_id = 1;
+                break;
+            case "Educación":
+                values.categoria_id = 2;
+                break;
+            case "Entretenimiento":
+                values.categoria_id = 3;
+                break;
+            case "Deportes":
+
+                values.categoria_id = 4;
+                break;
+        }
+
+        switch (values.tipo_evento_id) {
+            case "Público":
+                values.tipo_evento_id = 1;
+                break;
+            case "Privado":
+                values.tipo_evento_id = 2;
+                break;
+            default:
+
+                break;
+        }
+
+        const formattedValues = {
+            nombre: values.nombre,
+            fecha_inicio: values.fecha_inicio.format('YYYY-MM-DD'),
+            fecha_termino: values.fecha_termino.format('YYYY-MM-DD'),
+            hora: values.hora.format('HH:mm'),
+            tipo_evento_id: values.tipo_evento_id,
+            categoria_id: values.categoria_id,
+            ubicacion: values.ubicacion,
+            max_per: values.max_per,
+            imagen_url: values.imagen_url,
+            monto: values.monto,
+            descripcion: values.descripcion
+        };
+
+        console.log(formattedValues);
+
+        try {
+            const response = await fetch(`${apiConn}/events/put/img/${evento_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formattedValues),
+            });
+
+            const contentType = response.headers.get('content-type');
+            const data = contentType && contentType.includes('application/json') ? await response.json() : await response.text();
+
+            if (response.ok) {
+                notification.success({
+                    message: 'Éxito',
+                    description: typeof data === 'string' ? data : 'El evento se ha actualizado correctamente.',
+                });
+                window.location.href = '/homeOrganizer';
+            } else {
+                throw new Error(data.message || data || 'Error al actualizar el evento');
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            notification.error({
+                message: 'Error',
+                description: error.message || 'Ocurrió un error al enviar los datos.',
+            });
+        }finally {
+            setLoading(false);
+        }
+    };
+
+
+    return (
+        <div>
+            <Navbar />
+            <div style={{ maxWidth: '800px', margin: 'auto', padding: '2rem' }}>
+                <Card style={{ borderRadius: '8px', border: '2px solid #6D238B', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                    <h1 style={{ color: '#6D238B', textAlign: 'center' }}>Actualizar Evento</h1>
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        onFinish={handleSubmit}
+                    >
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Item label="Nombre" name="nombre" >
+                                    <Input />
+                                </Item>
+                            </Col>
+                            <Col span={12}>
+                                <Item label="Ubicación" name="ubicacion">
+                                    <Input />
+                                </Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Item label="Fecha de Inicio" name="fecha_inicio">
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Item>
+                            </Col>
+                            <Col span={12}>
+                                <Item label="Fecha de Término" name="fecha_termino">
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Item label="Hora" name="hora">
+                                    <TimePicker style={{ width: '100%' }} format="HH:mm" />
+                                </Item>
+                            </Col>
+                            <Col span={12}>
+                                <Item label="Máximo de personas" name="max_per">
+                                    <InputNumber min={1} style={{ width: '100%' }} />
+                                </Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Item label="Tipo de Evento" name="tipo_evento_id" >
+                                    <Select placeholder="Seleccionar tipo de evento">
+                                        <Option value={1}>Público</Option>
+                                        <Option value={2}>Privado</Option>
+                                    </Select>
+                                </Item>
+                            </Col>
+                            <Col span={12}>
+                                <Item label="Categoría" name="categoria_id">
+                                    <Select placeholder="Seleccionar categoría">
+                                        <Option value={1}>Tecnología</Option>
+                                        <Option value={2}>Educación</Option>
+                                        <Option value={3}>Entretenimiento</Option>
+                                        <Option value={4}>Deportes</Option>
+                                    </Select>
+                                </Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            {/* <Col span={12}>
+                                <Item label="Escenario" name="escenario">
+                                    <Select>
+                                        <Option value={'Redondo'}>Redondo</Option>
+                                        <Option value={'Cuadrado'}>Cuadrado</Option>
+                                        <Option value={'Triangulo'}>Triangulo</Option>
+                                    </Select>
+                                </Item>
+                            </Col> */}
+                            <Col span={12}>
+                                <Item label="Imagen URL" name="imagen_url">
+                                    <Input />
+                                </Item>
+                            </Col>
+                            <Col span={12}>
+                                <Item label="Monto" name="monto">
+                                    <InputNumber min={0} style={{ width: '100%' }} />
+                                </Item>
+                            </Col>
+                        </Row>
+                        <Item label="Descripcion" name="descripcion">
+                            <TextArea rows={4} placeholder="" />
+                        </Item>
+                        <Item>
+                            <Button type="primary" htmlType="submit" style={{ width: '100%', background: '#6D238B', borderColor: '#6D238B' }}  loading={loading} >
+                                ACTUALIZAR EVENTO
+                            </Button>
+                        </Item>
+                    </Form>
+                </Card>
+            </div>
+        </div>
+    );
+};
+
+export default UpdateEvent;
