@@ -20,6 +20,9 @@ const CreateEvent = () => {
 
     const handleSubmit = async (values) => {
         setLoading(true);
+        // Guardamos los calores del form en variables 
+        const maxPer = values.max_per;
+        const formaEscenario = values.escenario;
 
         let imagen_url = selectedImage;
         if (selectedImage === 'custom') {
@@ -53,11 +56,31 @@ const CreateEvent = () => {
             const data = contentType && contentType.includes('application/json') ? await response.json() : await response.text();
 
             if (response.ok) {
-                notification.success({
-                    message: 'Éxito',
-                    description: typeof data === 'string' ? data : 'El evento se ha creado correctamente.',
+                const evento_id = data.evento_id;
+
+                // Aqui hago el POST para crear el escenario
+                const escenarioResponse = await fetch(`${apiConn}/escenarios`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        asiento: maxPer,
+                        forma: formaEscenario,
+                        evento_id: evento_id,
+                    }),
                 });
-                window.location.href = '/homeOrganizer';
+                const escenarioData = await escenarioResponse.json();
+
+                if (escenarioResponse.ok) {
+                    notification.success({
+                        message: 'Éxito',
+                        description: 'El evento y el escenario se han creado correctamente.',
+                    });
+                    window.location.href = '/homeOrganizer';
+                } else {
+                    throw new Error(escenarioData.message || 'Error al crear el escenario');
+                }
             } else {
                 throw new Error(data.message || data || 'Error al crear el evento');
             }
@@ -136,15 +159,15 @@ const CreateEvent = () => {
                             </Col>
                         </Row>
                         <Row gutter={16}>
-                            {/* <Col span={12}>
-                                <Item label="Escenario" name="escenario">
+                        <Col span={12}>
+                                <Item label="Escenario" name="escenario" rules={[{ required: true, message: 'Por favor seleccione un tipo de escenario' }]}>
                                     <Select>
                                         <Option value={'Redondo'}>Redondo</Option>
                                         <Option value={'Cuadrado'}>Cuadrado</Option>
                                         <Option value={'Triangular'}>Triangular</Option>
                                     </Select>
                                 </Item>
-                            </Col> */}
+                            </Col>
                             <Col span={12}>
                                 <Item
                                     label="Monto"
@@ -198,7 +221,7 @@ const CreateEvent = () => {
                                 type="primary"
                                 htmlType="submit"
                                 style={{ width: '100%', background: '#6D238B', borderColor: '#6D238B' }}
-                                loading={loading} 
+                                loading={loading}
                             >
                                 CREAR EVENTO
                             </Button>

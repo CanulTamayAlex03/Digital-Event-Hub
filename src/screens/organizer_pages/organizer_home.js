@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Button, message, Typography, Modal } from 'antd';
 import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, UserOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import OrganizerNavbar from '../../components/organizer_nav';
+import EscenarioService  from './ServiceDeleteScenary';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
@@ -22,26 +23,29 @@ const OrganizerHome = () => {
             .catch(error => console.error('Error fetching events:', error));
     }, []);
 
-    const handleDelete = (evento_id) => {
-        fetch(`${apiConn}/events/delete/img`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ evento_id })
-        })
-            .then(response => {
-                if (response.ok) {
-                    setEvents(events.filter(event => event.evento_id !== evento_id));
-                    message.success('Evento eliminado exitosamente');
-                } else {
-                    message.error('Error al eliminar el evento');
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting event:', error);
-                message.error('Error al eliminar el evento');
+    const handleDelete = async (evento_id) => {
+        try {
+            const response = await fetch(`${apiConn}/events/delete/img`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ evento_id })
             });
+    
+            if (response.ok) {
+                setEvents(events.filter(event => event.evento_id !== evento_id));
+                message.success('Evento eliminado exitosamente');
+    
+                //Aqui solo paso el id del evento elimado para eliminar tambien el escenario del evento
+                await EscenarioService.handleEscenarios(evento_id);
+            } else {
+                message.error('Error al eliminar el evento');
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            message.error('Error al eliminar el evento');
+        }
     };
 
     const showDeleteConfirm = (evento_id) => {
